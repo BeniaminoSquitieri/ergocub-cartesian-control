@@ -61,6 +61,35 @@ bool Module::go_to_position(double x, double y, double z, double traj_duration)
     return true;
 }
 
+bool Module::rotate_deg(double angle, double x, double y, double z, double traj_duration)
+{
+    return rotate_rad(angle * (M_PI/180.0), x, y, z, traj_duration);
+}
+
+bool Module::rotate_rad(double angle, double x, double y, double z, double traj_duration)
+{
+
+    Eigen::Affine3d target_pose;
+    target_pose = getTrajFinPose();
+
+    target_pose.rotate(Eigen::AngleAxis(angle, Eigen::Vector3d(x,y,z)));
+
+    serviceTrajInit(false, target_pose, traj_duration);
+
+    return true;
+}
+
+yarp::sig::Matrix Module::get_pose()
+{
+    yarp::sig::Matrix yarp_pose;
+
+    yarp_pose.resize(4, 4);
+
+    yarp::eigen::toEigen(yarp_pose) = getCurrPose().matrix();
+
+    return yarp_pose;
+}
+
 bool Module::go_home()
 {
     if (getState() != State::Stop)
@@ -70,6 +99,7 @@ bool Module::go_home()
 
     return true;
 }
+
 
 bool Module::is_motion_done()
 {
