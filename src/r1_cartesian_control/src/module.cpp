@@ -202,7 +202,8 @@ bool Module::configure(yarp::os::ResourceFinder &rf)
         std::vector<std::string> list_joints = utils::loadVectorString(ARM_bot, "joint_axes_list");
 
         /* Get robot urdf path. */
-        const std::string robot_urdf_path = rf.findFileByName("model.urdf");
+        std::string robot_urdf_path = "/usr/local/src/robot/r1-models/build/R1Mk3/robots/R1Mk3Gazebo/model.urdf";
+
 
         if (robot_urdf_path.empty())
         {
