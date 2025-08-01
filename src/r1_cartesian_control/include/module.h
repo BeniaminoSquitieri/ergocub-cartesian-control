@@ -43,6 +43,12 @@ public:
 
     bool go_to_position(double x, double y, double z, double traj_duration);
 
+    bool rotate_deg(double angle, double x, double y, double z, double traj_duration);
+
+    bool rotate_rad(double angle, double x, double y, double z, double traj_duration);
+
+    yarp::sig::Matrix get_pose();
+
     bool go_home();
 
     bool is_motion_done();
@@ -67,6 +73,8 @@ private:
     Eigen::Transform<double, 3, Eigen::Affine> home_pose_;
     Eigen::Transform<double, 3, Eigen::Affine> desired_transform_;
     Eigen::Transform<double, 3, Eigen::Affine> current_transform_;
+    Eigen::Vector3d desired_lin_vel_;
+    Eigen::Vector3d desired_ang_vel_;
 
     void setCurrPose(const Eigen::Transform<double, 3, Eigen::Affine> &curr_pose);
     Eigen::Transform<double, 3, Eigen::Affine> getCurrPose();
